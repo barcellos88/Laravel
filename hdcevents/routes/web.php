@@ -17,17 +17,16 @@ Route::get('/', function () {
 
     $nome = "Matheus";
     $idade = 29;
-    $profissao = "programador";
 
-    $arr = [1,2,3,4,5];
+    $arr = [10,20,30,40,50];
 
-    $nomes = ["Matheus", "João", "Maria", "Saulo"];
+    $nomes = ["Matheus", "Maria", "João", "Saulo"];
 
-    return view('welcome',
+    return view('welcome', 
         [
-            'nome' => $nome,
-            'idade' => $idade,
-            'profissao' => "profissao",
+            'nome' => $nome, 
+            'idade' => $idade, 
+            'profissao' => "Programador",
             'arr' => $arr,
             'nomes' => $nomes
         ]);
@@ -37,6 +36,13 @@ Route::get('/contact', function () {
     return view('contact');
 });
 
-Route::get('/Produtos', function () {
-    return view('Produtos');
+Route::get('/produtos', function () {
+
+    $busca = request('search');
+
+    return view('products', ['busca' => $busca]);
+});
+
+Route::get('/produtos_teste/{id?}', function ($id = null) {
+    return view('product', ['id' => $id]);
 });
