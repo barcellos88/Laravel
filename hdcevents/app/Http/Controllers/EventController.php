@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Event;
-
 use App\Models\User;
 
 class EventController extends Controller
@@ -78,24 +77,25 @@ class EventController extends Controller
         
     }
 
-    public function dashboard(){
+    public function dashboard() {
 
         $user = auth()->user();
 
         $events = $user->events;
 
-        return view('events.dashboard', ['events'=>$events]);
+        return view('events.dashboard', ['events' => $events]);
+
     }
 
-    public function destroy($id){
+    public function destroy($id) {
 
         Event::findOrFail($id)->delete();
 
-        return redirect('/dashboard')->with('msg', 'Evento excluido com sucesso!');
+        return redirect('/dashboard')->with('msg', 'Evento excluído com sucesso!');
 
     }
 
-    public function edit($id){
+    public function edit($id) {
 
         $event = Event::findOrFail($id);
 
@@ -103,9 +103,10 @@ class EventController extends Controller
 
     }
 
-    public function update(Request $request){
+    public function update(Request $request) {
 
-        $date = $request->all();
+        $data = $request->all();
+
         // Image Upload
         if($request->hasFile('image') && $request->file('image')->isValid()) {
 
@@ -123,10 +124,20 @@ class EventController extends Controller
 
         Event::findOrFail($request->id)->update($data);
 
-        return redirect('/dashboard')->with('msg', 'Evento Atualizado com sucesso!');
+        return redirect('/dashboard')->with('msg', 'Evento editado com sucesso!');
 
     }
 
+    public function joinEvent($id) {
 
+        $user = auth()->user();
+
+        $user->eventsAsParticipant()->attach($id);
+
+        $event = Event::findOrFail($id);
+
+        return redirect('/dashboard')->with('msg', 'Sua presença está confirmada no evento ' . $event->title);
+
+    }
 
 }
