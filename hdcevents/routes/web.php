@@ -19,7 +19,7 @@ Route::get('/', [EventController::class, 'index']);
 Route::get('/events/create', [EventController::class, 'create'])->middleware('auth');
 Route::get('/events/{id}', [EventController::class, 'show']);
 Route::post('/events', [EventController::class, 'store']);
-
+Route::delete('/events/{id}', [EventController::class, 'destroy']);
 
 Route::get('/events/login', [EventController::class, 'login']);
 Route::get('/events/register', [EventController::class, 'register']);
